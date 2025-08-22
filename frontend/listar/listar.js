@@ -7,7 +7,7 @@ async function agregarAlCarrito(idProducto) {
   const cedula = localStorage.getItem('cedulaCliente') || localStorage.getItem('clienteCedula');
   if (!cedula) return alert('No se encontró la cédula del cliente');
   try {
-    const res = await fetch('http://localhost:3000/api/carrito', {
+    const res = await fetch('http://localhost:3000/api/guardado', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cedula_cliente: cedula, id_producto: idProducto, cantidad: 1 })
@@ -28,15 +28,15 @@ function renderProductosTabla(productos) {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${idx + 1}</td>
-      <td>${prod.nombre}</td>
-      <td>${prod.codigo}</td>
-      <td>${prod.descripcion}</td>
-      <td>${prod.categoria}</td>
-      <td>${prod.precio}</td>
-      <td>${prod.stock}</td>
-      <td>${prod.fecha_ingreso ? prod.fecha_ingreso.substring(0, 10) : ''}</td>
-      <td>${prod.proveedor}</td>
-  <td><button class="btn-login" onclick="agregarAlCarrito('${prod._id}')">Agregar al carrito</button></td>
+        <td>${prod.marca}</td>
+        <td>${prod.modelo}</td>
+        <td>${prod.año_fabricacion}</td>
+        <td>${prod.placa}</td>
+        <td>${prod.color}</td>
+        <td>${prod.tipo}</td>
+        <td>${prod.kilometraje}</td>
+        <td>${prod.descripcion || ''}</td>
+  <td><button class="btn-login" onclick="agregarAlCarrito('${prod._id}')">Hacer reserva</button></td>
     `;
     tbody.appendChild(tr);
   });
@@ -46,7 +46,7 @@ function renderProductosTabla(productos) {
 // Obtener productos del backend y renderizar tabla
 async function obtenerYListarProductos() {
   try {
-    const res = await fetch('http://localhost:3000/api/productos');
+    const res = await fetch('http://localhost:3000/api/vehiculos');
     if (!res.ok) throw new Error('Error al obtener productos');
     const productos = await res.json();
     renderProductosTabla(productos);
