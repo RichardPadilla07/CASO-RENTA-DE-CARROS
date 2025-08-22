@@ -2,35 +2,35 @@
 // Aquí se definen funciones para el CRUD y visualización de productos.
 // Puedes modificar la lógica, nombres de funciones o variables según la temática o cambios futuros en el proyecto.
 // CRUD de productos para el panel admin
-const API_URL = 'http://localhost:3000/api/productos';
+const API_URL = 'http://localhost:3000/api/vehiculos';
 
 async function cargarProductos() {
   const tbody = document.getElementById('tabla-productos-body');
   tbody.innerHTML = '';
   try {
     const res = await fetch(API_URL);
-    const productos = await res.json();
-    productos.forEach((prod, idx) => {
+    const vehiculos = await res.json();
+    vehiculos.forEach((vehiculo, idx) => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${idx + 1}</td>
-        <td>${prod.nombre}</td>
-        <td>${prod.codigo}</td>
-        <td>${prod.descripcion || ''}</td>
-        <td>${prod.categoria || ''}</td>
-        <td>${prod.precio}</td>
-        <td>${prod.stock}</td>
-        <td>${prod.fecha_ingreso ? prod.fecha_ingreso.substring(0,10) : ''}</td>
-        <td>${prod.proveedor || ''}</td>
+        <td>${vehiculo.marca}</td>
+        <td>${vehiculo.modelo}</td>
+        <td>${vehiculo.anio_fabricacion ? vehiculo.anio_fabricacion.substring(0,10) : ''}</td>
+        <td>${vehiculo.placa || ''}</td>
+        <td>${vehiculo.color || ''}</td>
+        <td>${vehiculo.tipo || ''}</td>
+        <td>${vehiculo.kilometraje || ''}</td>
+        <td>${vehiculo.descripcion || ''}</td>
         <td style="display:flex;gap:8px;justify-content:center;align-items:center;">
-          <button onclick="editarProducto(${prod.id})">✏️</button>
-          <button onclick="eliminarProducto(${prod.id})">🗑️</button>
+          <button onclick="editarVehiculo('${vehiculo._id}')">✏️</button>
+          <button onclick="eliminarVehiculo('${vehiculo._id}')">🗑️</button>
         </td>
       `;
       tbody.appendChild(tr);
     });
   } catch (err) {
-    tbody.innerHTML = '<tr><td colspan="10">Error al cargar productos</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10">Error al cargar vehículos</td></tr>';
   }
 }
 

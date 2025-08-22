@@ -4,7 +4,7 @@
 
 
 // API para pedidos
-const API_PEDIDOS = 'http://localhost:3000/api/pedidos';
+const API_PEDIDOS = 'http://localhost:3000/api/reservas';
 
 async function obtenerPedidos() {
   try {

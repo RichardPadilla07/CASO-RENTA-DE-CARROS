@@ -2,13 +2,13 @@
 // Aquí se definen funciones para el CRUD de productos y gestión de pedidos.
 // Puedes modificar la lógica, nombres de funciones o variables según la temática o cambios futuros en el proyecto.
 
-// API para pedidos
-const API_PEDIDOS_CREAR = 'http://localhost:3000/api/pedidos';
+// API para reservas
+const API_RESERVAS_CREAR = 'http://localhost:3000/api/reservas';
 
 // Obtener y mostrar pedidos como tarjetas
 async function obtenerPedidos() {
   try {
-  const res = await fetch(API_PEDIDOS_CREAR);
+  const res = await fetch(API_RESERVAS_CREAR);
     const pedidos = await res.json();
     mostrarPedidos(pedidos);
   } catch (error) {
@@ -43,7 +43,7 @@ function mostrarPedidos(pedidos) {
 // Cambiar estado de un pedido
 window.cambiarEstadoPedido = async function(id, nuevoEstado) {
   try {
-  const res = await fetch(`${API_PEDIDOS_CREAR}/${id}`, {
+  const res = await fetch(`${API_RESERVAS_CREAR}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ estado: nuevoEstado })
@@ -60,7 +60,7 @@ window.cambiarEstadoPedido = async function(id, nuevoEstado) {
 window.eliminarPedido = async function(id) {
   if (!confirm('¿Seguro que deseas eliminar este pedido?')) return;
   try {
-  const res = await fetch(`${API_PEDIDOS_CREAR}/${id}`, {
+  const res = await fetch(`${API_RESERVAS_CREAR}/${id}`, {
       method: 'DELETE'
     });
     if (res.ok) {
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', obtenerPedidos);
 
 
 // API para productos
-const API_URL = 'http://localhost:3000/api/productos';
+const API_URL = 'http://localhost:3000/api/vehiculos';
 
 // Cargar productos
 document.addEventListener('DOMContentLoaded', () => {
