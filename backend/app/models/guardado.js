@@ -11,7 +11,7 @@ const carritoSchema = new mongoose.Schema({
     fecha_agregado: { type: Date, default: Date.now }
 });
 
-const Carrito = mongoose.model("Carrito", carritoSchema);
+const Carrito = mongoose.model("Guardado", carritoSchema);
 
 
 

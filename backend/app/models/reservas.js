@@ -12,6 +12,6 @@ const pedidoSchema = new mongoose.Schema({
   estado: { type: String, enum: ['pendiente', 'reserva aceptada', 'no disponible', 'reserva eliminada'], default: 'pendiente' }
 });
 
-const Pedido = mongoose.model("Pedido", pedidoSchema);
+const Pedido = mongoose.model("Reserva", pedidoSchema);
 
 export default Pedido;
