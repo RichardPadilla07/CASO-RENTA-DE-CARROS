@@ -37,26 +37,26 @@ async function cargarProductos() {
 async function handleCrearProducto(e) {
   e.preventDefault();
   const form = e.target;
-  const datos = {
-    nombre: form.nombre.value.trim(),
-    codigo: form.codigo.value.trim(),
-    descripcion: form.descripcion.value.trim(),
-    categoria: form.categoria.value.trim(),
-    precio: parseFloat(form.precio.value),
-    stock: parseInt(form.stock.value),
-    fecha_ingreso: form.fecha_ingreso.value,
-    proveedor: form.proveedor.value.trim()
+  const vehiculo = {
+    marca: form.marca.value.trim(),
+    modelo: form.modelo.value.trim(),
+    anio_fabricacion: form.anio_fabricacion.value,
+    placa: form.placa.value.trim(),
+    color: form.color.value.trim(),
+    tipo: form.tipo.value.trim(),
+    kilometraje: form.kilometraje.value.trim(),
+    descripcion: form.descripcion.value.trim()
   };
   try {
     const res = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(datos)
+      body: JSON.stringify(vehiculo)
     });
     if (res.ok) {
       form.reset();
       cargarProductos();
-      alert('Producto creado correctamente');
+      alert('Vehículo creado correctamente');
     } else {
       alert('Error al crear producto');
     }
@@ -76,33 +76,33 @@ window.eliminarProducto = async function(id) {
   }
 }
 
-window.editarProducto = async function(id) {
+window.editarVehiculo = async function(id) {
   try {
     const res = await fetch(`${API_URL}/${id}`);
-    if (!res.ok) return alert('No se pudo obtener el producto');
-    const prod = await res.json();
-    const modal = document.getElementById('modal-editar-producto');
-    const form = document.getElementById('form-editar-producto');
-    form.nombre.value = prod.nombre || '';
-    form.codigo.value = prod.codigo || '';
-    form.descripcion.value = prod.descripcion || '';
-    form.categoria.value = prod.categoria || '';
-    form.precio.value = prod.precio || '';
-    form.stock.value = prod.stock || '';
-    form.fecha_ingreso.value = prod.fecha_ingreso ? prod.fecha_ingreso.substring(0,10) : '';
-    form.proveedor.value = prod.proveedor || '';
+    if (!res.ok) return alert('No se pudo obtener el vehículo');
+    const vehiculo = await res.json();
+    const modal = document.getElementById('modal-editar-vehiculo');
+    const form = document.getElementById('form-editar-vehiculo');
+    form.marca.value = vehiculo.marca || '';
+    form.modelo.value = vehiculo.modelo || '';
+    form.anio_fabricacion.value = vehiculo.anio_fabricacion || '';
+    form.placa.value = vehiculo.placa || '';
+    form.color.value = vehiculo.color || '';
+    form.tipo.value = vehiculo.tipo || '';
+    form.kilometraje.value = vehiculo.kilometraje || '';
+    form.descripcion.value = vehiculo.descripcion || '';
     modal.style.display = 'flex';
     form.onsubmit = async function(e) {
       e.preventDefault();
       const datos = {
-        nombre: form.nombre.value.trim(),
-        codigo: form.codigo.value.trim(),
-        descripcion: form.descripcion.value.trim(),
-        categoria: form.categoria.value.trim(),
-        precio: parseFloat(form.precio.value),
-        stock: parseInt(form.stock.value),
-        fecha_ingreso: form.fecha_ingreso.value,
-        proveedor: form.proveedor.value.trim()
+        marca: form.marca.value.trim(),
+        modelo: form.modelo.value.trim(),
+        anio_fabricacion: form.anio_fabricacion.value,
+        placa: form.placa.value.trim(),
+        color: form.color.value.trim(),
+        tipo: form.tipo.value.trim(),
+        kilometraje: form.kilometraje.value.trim(),
+        descripcion: form.descripcion.value.trim()
       };
       try {
         const res = await fetch(`${API_URL}/${id}`, {
