@@ -2,42 +2,42 @@
 // Aquí se definen funciones para el CRUD y visualización de productos.
 // Puedes modificar la lógica, nombres de funciones o variables según la temática o cambios futuros en el proyecto.
 // CRUD de productos para el panel admin
-const API_URL = 'http://localhost:3000/api/vehiculos';
+const API_URL = 'http://localhost:3000/api/productos';
 
 async function cargarProductos() {
   const tbody = document.getElementById('tabla-productos-body');
   tbody.innerHTML = '';
   try {
     const res = await fetch(API_URL);
-    const vehiculos = await res.json();
-    vehiculos.forEach((vehiculo, idx) => {
+    const productos = await res.json();
+    productos.forEach((prod, idx) => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${idx + 1}</td>
-        <td>${vehiculo.marca}</td>
-        <td>${vehiculo.modelo}</td>
-        <td>${vehiculo.anio_fabricacion ? vehiculo.anio_fabricacion.substring(0,10) : ''}</td>
-        <td>${vehiculo.placa || ''}</td>
-        <td>${vehiculo.color || ''}</td>
-        <td>${vehiculo.tipo || ''}</td>
-        <td>${vehiculo.kilometraje || ''}</td>
-        <td>${vehiculo.descripcion || ''}</td>
+        <td>${prod.marca}</td>
+        <td>${prod.modelo}</td>
+        <td>${prod.año_fabricacion}</td>
+        <td>${prod.placa}</td>
+        <td>${prod.color}</td>
+        <td>${prod.tipo}</td>
+        <td>${prod.kilometraje}</td>
+        <td>${prod.descripcion || ''}</td>
         <td style="display:flex;gap:8px;justify-content:center;align-items:center;">
-          <button onclick="editarVehiculo('${vehiculo._id}')">✏️</button>
-          <button onclick="eliminarVehiculo('${vehiculo._id}')">🗑️</button>
+          <button onclick="editarProducto('${prod._id}')">✏️</button>
+          <button onclick="eliminarProducto('${prod._id}')">🗑️</button>
         </td>
       `;
       tbody.appendChild(tr);
     });
   } catch (err) {
-    tbody.innerHTML = '<tr><td colspan="10">Error al cargar vehículos</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10">Error al cargar productos</td></tr>';
   }
 }
 
 async function handleCrearProducto(e) {
   e.preventDefault();
   const form = e.target;
-  const vehiculo = {
+  const datos = {
     marca: form.marca.value.trim(),
     modelo: form.modelo.value.trim(),
     anio_fabricacion: form.anio_fabricacion.value,
@@ -51,12 +51,12 @@ async function handleCrearProducto(e) {
     const res = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(vehiculo)
+      body: JSON.stringify(datos)
     });
     if (res.ok) {
       form.reset();
       cargarProductos();
-      alert('Vehículo creado correctamente');
+      alert('Producto creado correctamente');
     } else {
       alert('Error al crear producto');
     }
@@ -76,21 +76,21 @@ window.eliminarProducto = async function(id) {
   }
 }
 
-window.editarVehiculo = async function(id) {
+window.editarProducto = async function(id) {
   try {
     const res = await fetch(`${API_URL}/${id}`);
-    if (!res.ok) return alert('No se pudo obtener el vehículo');
-    const vehiculo = await res.json();
-    const modal = document.getElementById('modal-editar-vehiculo');
-    const form = document.getElementById('form-editar-vehiculo');
-    form.marca.value = vehiculo.marca || '';
-    form.modelo.value = vehiculo.modelo || '';
-    form.anio_fabricacion.value = vehiculo.anio_fabricacion || '';
-    form.placa.value = vehiculo.placa || '';
-    form.color.value = vehiculo.color || '';
-    form.tipo.value = vehiculo.tipo || '';
-    form.kilometraje.value = vehiculo.kilometraje || '';
-    form.descripcion.value = vehiculo.descripcion || '';
+    if (!res.ok) return alert('No se pudo obtener el producto');
+    const prod = await res.json();
+    const modal = document.getElementById('modal-editar-producto');
+    const form = document.getElementById('form-editar-producto');
+    form.marca.value = prod.marca || '';
+    form.modelo.value = prod.modelo || '';
+    form.anio_fabricacion.value = prod.anio_fabricacion || '';
+    form.placa.value = prod.placa || '';
+    form.color.value = prod.color || '';
+    form.tipo.value = prod.tipo || '';
+    form.kilometraje.value = prod.kilometraje || '';
+    form.descripcion.value = prod.descripcion || '';
     modal.style.display = 'flex';
     form.onsubmit = async function(e) {
       e.preventDefault();

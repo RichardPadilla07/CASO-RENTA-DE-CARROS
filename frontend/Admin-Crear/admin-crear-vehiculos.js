@@ -2,13 +2,13 @@
 // Aquí se definen funciones para el CRUD de productos y gestión de pedidos.
 // Puedes modificar la lógica, nombres de funciones o variables según la temática o cambios futuros en el proyecto.
 
-// API para reservas
-const API_RESERVAS_CREAR = 'http://localhost:3000/api/reservas';
+// API para pedidos
+const API_PEDIDOS_CREAR = 'http://localhost:3000/api/reservas';
 
 // Obtener y mostrar pedidos como tarjetas
 async function obtenerPedidos() {
   try {
-  const res = await fetch(API_RESERVAS_CREAR);
+    const res = await fetch(API_PEDIDOS_CREAR);
     const pedidos = await res.json();
     mostrarPedidos(pedidos);
   } catch (error) {
@@ -41,9 +41,9 @@ function mostrarPedidos(pedidos) {
 }
 
 // Cambiar estado de un pedido
-window.cambiarEstadoPedido = async function(id, nuevoEstado) {
+window.cambiarEstadoPedido = async function (id, nuevoEstado) {
   try {
-  const res = await fetch(`${API_RESERVAS_CREAR}/${id}`, {
+    const res = await fetch(`${API_PEDIDOS_CREAR}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ estado: nuevoEstado })
@@ -57,10 +57,10 @@ window.cambiarEstadoPedido = async function(id, nuevoEstado) {
 }
 
 // Eliminar pedido
-window.eliminarPedido = async function(id) {
+window.eliminarPedido = async function (id) {
   if (!confirm('¿Seguro que deseas eliminar este pedido?')) return;
   try {
-  const res = await fetch(`${API_RESERVAS_CREAR}/${id}`, {
+    const res = await fetch(`${API_PEDIDOS_CREAR}/${id}`, {
       method: 'DELETE'
     });
     if (res.ok) {
@@ -83,47 +83,47 @@ const API_URL = 'http://localhost:3000/api/vehiculos';
 
 // Cargar productos
 document.addEventListener('DOMContentLoaded', () => {
-  cargarVehiculos();
-  const formVehiculo = document.getElementById('form-vehiculo');
-  if (formVehiculo) formVehiculo.onsubmit = handleCrearVehiculo;
+  cargarProductos();
+  const formProducto = document.getElementById('form-producto');
+  if (formProducto) formProducto.onsubmit = handleCrearProducto;
 });
 
 // Cargar productos
-async function cargarVehiculos() {
+async function cargarProductos() {
   const tbody = document.getElementById('tabla-productos-body');
   tbody.innerHTML = '';
   try {
     const res = await fetch(API_URL);
-    const vehiculos = await res.json();
-    vehiculos.forEach((vehiculo, idx) => {
+    const productos = await res.json();
+    productos.forEach((prod, idx) => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${idx + 1}</td>
-        <td>${vehiculo.marca}</td>
-        <td>${vehiculo.modelo}</td>
-        <td>${vehiculo.anio_fabricacion ? vehiculo.anio_fabricacion.substring(0,10) : ''}</td>
-        <td>${vehiculo.placa || ''}</td>
-        <td>${vehiculo.color || ''}</td>
-        <td>${vehiculo.tipo || ''}</td>
-        <td>${vehiculo.kilometraje || ''}</td>
-        <td>${vehiculo.descripcion || ''}</td>
+        <td>${prod.marca}</td>
+        <td>${prod.modelo}</td>
+        <td>${prod.año_fabricacion}</td>
+        <td>${prod.placa}</td>
+        <td>${prod.color}</td>
+        <td>${prod.tipo}</td>
+        <td>${prod.kilometraje}</td>
+        <td>${prod.descripcion || ''}</td>
         <td style="display:flex;gap:8px;justify-content:center;align-items:center;">
-          <button onclick="editarVehiculo('${vehiculo._id}')">✏️</button>
-          <button onclick="eliminarVehiculo('${vehiculo._id}')">🗑️</button>
+          <button onclick="editarProducto('${prod._id}')">✏️</button>
+          <button onclick="eliminarProducto('${prod._id}')">🗑️</button>
         </td>
       `;
       tbody.appendChild(tr);
     });
   } catch (err) {
-    tbody.innerHTML = '<tr><td colspan="10">Error al cargar vehículos</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10">Error al cargar productos</td></tr>';
   }
 }
 
 // Manejar creación de producto
-async function handleCrearVehiculo(e) {
+async function handleCrearProducto(e) {
   e.preventDefault();
   const form = e.target;
-  const vehiculo = {
+  const producto = {
     marca: form.marca.value.trim(),
     modelo: form.modelo.value.trim(),
     anio_fabricacion: form.anio_fabricacion.value,
@@ -137,15 +137,15 @@ async function handleCrearVehiculo(e) {
     const res = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(vehiculo)
+      body: JSON.stringify(producto)
     });
     if (res.ok) {
       form.reset();
-      alert('Vehículo creado correctamente');
-      cargarVehiculos();
+      alert('Producto creado correctamente');
+      cargarProductos();
     } else {
       const data = await res.json();
-      let msg = 'Error al crear vehículo';
+      let msg = 'Error al crear producto';
       if (typeof data === 'object') {
         msg = data.error || JSON.stringify(data);
       }
@@ -157,7 +157,7 @@ async function handleCrearVehiculo(e) {
 }
 
 // Eliminar producto
-window.eliminarProducto = async function(id) {
+window.eliminarProducto = async function (id) {
   if (!confirm('¿Seguro que deseas eliminar este producto?')) return;
   try {
     const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
@@ -169,33 +169,33 @@ window.eliminarProducto = async function(id) {
 }
 
 // Editar producto
-window.editarProducto = async function(id) {
+window.editarProducto = async function (id) {
   try {
     const res = await fetch(`${API_URL}/${id}`);
     if (!res.ok) return alert('No se pudo obtener el producto');
     const prod = await res.json();
     const modal = document.getElementById('modal-editar-producto');
     const form = document.getElementById('form-editar-producto');
-    form.nombre.value = prod.nombre || '';
-    form.codigo.value = prod.codigo || '';
+    form.marca.value = prod.marca || '';
+    form.modelo.value = prod.modelo || '';
+    form.anio_fabricacion.value = prod.anio_fabricacion || '';
+    form.placa.value = prod.placa || '';
+    form.color.value = prod.color || '';
+    form.tipo.value = prod.tipo || '';
+    form.kilometraje.value = prod.kilometraje || '';
     form.descripcion.value = prod.descripcion || '';
-    form.categoria.value = prod.categoria || '';
-    form.precio.value = prod.precio || '';
-    form.stock.value = prod.stock || '';
-    form.fecha_ingreso.value = prod.fecha_ingreso ? prod.fecha_ingreso.substring(0,10) : '';
-    form.proveedor.value = prod.proveedor || '';
     modal.style.display = 'flex';
-    form.onsubmit = async function(e) {
+    form.onsubmit = async function (e) {
       e.preventDefault();
       const datos = {
-        nombre: form.nombre.value.trim(),
-        codigo: form.codigo.value.trim(),
-        descripcion: form.descripcion.value.trim(),
-        categoria: form.categoria.value.trim(),
-        precio: parseFloat(form.precio.value),
-        stock: parseInt(form.stock.value),
-        fecha_ingreso: form.fecha_ingreso.value,
-        proveedor: form.proveedor.value.trim()
+        marca: form.marca.value.trim(),
+        modelo: form.modelo.value.trim(),
+        anio_fabricacion: form.anio_fabricacion.value,
+        placa: form.placa.value.trim(),
+        color: form.color.value.trim(),
+        tipo: form.tipo.value.trim(),
+        kilometraje: form.kilometraje.value.trim(),
+        descripcion: form.descripcion.value.trim()
       };
       try {
         const res = await fetch(`${API_URL}/${id}`, {

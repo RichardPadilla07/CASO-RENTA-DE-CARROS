@@ -273,7 +273,7 @@
             style="background:linear-gradient(90deg,#2575fc,#6a11cb);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:28px;cursor:pointer;margin-right:16px;flex-shrink:0;">&#8592;</button>
           <div style="width:100%;max-width:900px;display:flex;justify-content:center;">
             <div class="slide-listar" id="slide-listar-producto" style="min-width:0;max-width:900px;">
-              <h2 class="form-title">Listar Vehiculos</h2>
+              <h2 class="form-title">Listar vehiculos</h2>
               <p style="margin-bottom:20px;color:#444;">En este modulo puedes gestionar los vehiculos registrados.</p>
               <div
                 style="overflow-x:auto;background:#fff;padding:20px;border-radius:16px;box-shadow:0 8px 32px rgba(106,17,203,0.08);">
@@ -333,14 +333,14 @@
           style="background:#fff;padding:32px 28px;border-radius:16px;max-width:500px;width:90%;box-shadow:0 8px 32px rgba(106,17,203,0.15);position:relative;">
           <h2 style="color:#2575fc;margin-bottom:10px;">Editar vehiculo</h2>
           <form id="form-editar-producto">
-            <input type="text" name="nombre" placeholder="Nombre" required maxlength="10" class="input-login">
-            <input type="text" name="codigo" placeholder="Código" required maxlength="20" class="input-login">
-            <input type="text" name="descripcion" placeholder="Descripción" maxlength="30" class="input-login">
-            <input type="text" name="categoria" placeholder="Categoría" maxlength="20" class="input-login">
-            <input type="number" name="precio" placeholder="Precio" step="0.01" required class="input-login">
-            <input type="number" name="stock" placeholder="Stock" required class="input-login">
-            <input type="date" name="fecha_ingreso" placeholder="Fecha ingreso" class="input-login">
-            <input type="text" name="proveedor" placeholder="Proveedor" maxlength="20" class="input-login">
+            <input type="text" name="marca" placeholder="Marca" required maxlength="20" class="input-login">
+            <input type="text" name="modelo" placeholder="Modelo" required maxlength="20" class="input-login">
+            <input type="date" name="anio_fabricacion" placeholder="Año de fabricación" class="input-login">
+            <input type="text" name="placa" placeholder="Placa" maxlength="7" class="input-login">
+            <input type="text" name="color" placeholder="Color" maxlength="20" class="input-login">
+            <input type="text" name="tipo" placeholder="Tipo" maxlength="20" class="input-login">
+            <input type="text" name="kilometraje" placeholder="Kilometraje" maxlength="20" class="input-login">
+            <input type="text" name="descripcion" placeholder="Descripción" maxlength="20" class="input-login">
             <button type="submit" class="btn-login" style="margin-top:10px;">Guardar cambios</button>
             <button type="button" id="btn-cerrar-modal-editar" class="btn-login"
               style="background:#d32f2f;margin-top:10px;">Cancelar</button>
@@ -354,10 +354,11 @@
           <button id="btn-carrusel-izq"
             style="background:linear-gradient(90deg,#2575fc,#6a11cb);color:#fff;border:none;border-radius:50%;width:44px;height:44px;font-size:28px;cursor:pointer;margin-right:64px;flex-shrink:0;">&#8592;</button>
           <div style="width:100%;max-width:500px;">
+
             <div class="slide-crear" id="slide-crear-producto" style="min-width:0;max-width:500px;">
-              <h2 class="form-title">Crear vehículo</h2>
-              <p style="margin-bottom:20px;color:#444;">Completa el formulario para agregar un nuevo vehículo.</p>
-              <form id="form-vehiculo" style="margin-bottom:20px;max-width:500px;">
+              <h2 class="form-title">Crear vehiculo</h2>
+              <p style="margin-bottom:20px;color:#444;">Completa el formulario para agregar un nuevo vehiculo.</p>
+              <form id="form-producto" style="margin-bottom:20px;max-width:500px;">
                 <input type="text" name="marca" placeholder="Marca" required maxlength="20" class="input-login">
                 <input type="text" name="modelo" placeholder="Modelo" required maxlength="20" class="input-login">
                 <input type="date" name="anio_fabricacion" placeholder="Año de fabricación" class="input-login">
@@ -366,8 +367,10 @@
                 <input type="text" name="tipo" placeholder="Tipo" maxlength="20" class="input-login">
                 <input type="text" name="kilometraje" placeholder="Kilometraje" maxlength="20" class="input-login">
                 <input type="text" name="descripcion" placeholder="Descripción" maxlength="20" class="input-login">
-                <button type="submit" class="btn-login">Crear vehículo</button>
+                <input type="text" name="proveedor" placeholder="Proveedor" maxlength="20" class="input-login">
+                <button type="submit" class="btn-login">Crear vehiculo</button>
               </form>
+
             </div>
             <div class="slide-crear" id="slide-crear-cliente" style="display:none;min-width:0;max-width:500px;">
               <h2 class="form-title">Crear cliente</h2>
@@ -393,10 +396,10 @@
       </section>
 
       <section id="seccion-pedidos" style="display:none;">
-        <h2 style="color:#2575fc;margin-bottom:10px;">Gestión de Reservas</h2>
-        <p style="margin-bottom:20px;color:#444;">En este modulo gestionas las reservas de los clientes.</p>
+        <h2 style="color:#2575fc;margin-bottom:10px;">Gestión de pedidos</h2>
+        <p style="margin-bottom:20px;color:#444;">En este modulo gestionas los pedidos de los clientes.</p>
         <section>
-          <h2>Reservas recibidas</h2>
+          <h2>Pedidos recibidos</h2>
           <div id="pedidos-container"></div>
         </section>
       </section>
@@ -430,9 +433,7 @@
   <script src="Admin-Perfil/admin-perfil.js"></script>
   <script src="Admin-Crear/admin-crear-clientes.js"></script>
   <script src="Admin-Crear/admin-crear-vehiculos.js"></script>
-  <script src="Admin-Reservas/admin-reservas.js"></script>
-  <script src="Admin-Listar/admin-listar-clientes.js"></script>
-  <script src="Admin-Listar/admin-listar-vehiculos.js"></script>
+  <script src="Admin-Pedidos/admin-reservas.js"></script>
 </body>
 
 </html>
