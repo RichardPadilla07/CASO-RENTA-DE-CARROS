@@ -18,7 +18,8 @@ export const getAllCarritos = async (req, res) => {
 // Obtener el carrito de un cliente con datos del producto y pedido
 export const getCarritoByCliente = async (req, res) => {
     try {
-        const carritos = await Carrito.find({ cedula_cliente: req.params.id }).populate('id_producto');
+        const cedula = Number(req.params.id);
+        const carritos = await Carrito.find({ cedula_cliente: cedula }).populate('id_producto');
         res.json(carritos);
     } catch (err) {
         res.status(500).json({ error: err.message });

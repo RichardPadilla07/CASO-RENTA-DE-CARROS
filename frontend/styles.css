@@ -189,3 +189,10 @@ th {
 tr:nth-child(even) {
   background: #f9f9f9;
 }
+
+#carrito-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}

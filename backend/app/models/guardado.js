@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 
 const carritoSchema = new mongoose.Schema({
     cedula_cliente: { type: Number, required: true },
-    id_producto: { type: mongoose.Schema.Types.ObjectId, ref: "Producto", required: true },
+    id_producto: { type: mongoose.Schema.Types.ObjectId, ref: "Vehiculo", required: true },
     cantidad: { type: Number, required: true },
     fecha_agregado: { type: Date, default: Date.now }
 });
