@@ -101,7 +101,7 @@ async function cargarProductos() {
         <td>${idx + 1}</td>
         <td>${prod.marca}</td>
         <td>${prod.modelo}</td>
-        <td>${prod.año_fabricacion}</td>
+        <td>${prod.anio_fabricacion ? new Date(prod.anio_fabricacion).toISOString().slice(0, 10) : ''}</td>
         <td>${prod.placa}</td>
         <td>${prod.color}</td>
         <td>${prod.tipo}</td>
